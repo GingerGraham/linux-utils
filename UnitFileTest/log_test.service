@@ -1,0 +1,6 @@
+# File: /etc/systemd/system/log_time.service
+[Unit]
+Description=Log Time Service
+
+[Service]
+ExecStart=/usr/local/bin/log_test.sh
