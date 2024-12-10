@@ -5,7 +5,7 @@
 ```bash
 # Copy the files to the correct locations
 sudo cp ./log_test.sh /usr/local/bin/log_test.sh
-sudo cp ./log_test.* /etc/systemd/system/
+sudo cp ./log_test.service ./log_test.timer /etc/systemd/system/
 
 # Reload the daemon, enable the timer, and start the timer
 systemctl daemon-reload
