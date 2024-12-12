@@ -1,6 +1,10 @@
 # SystemD Testing
 
-## Setup
+This directory includes system level unit files and user level unit files as well as associated scripts to test the functionality of SystemD.
+
+## System Level Unit Files
+
+### System Unit Files Setup
 
 ```bash
 # Copy the files to the correct locations
@@ -13,7 +17,7 @@ systemctl enable log_test.timer
 systemctl start log_test.timer
 ```
 
-## Verify Setup
+### Verify Setup
 
 ```bash
 # Check the status of the timer
@@ -57,7 +61,7 @@ systemctl status log_test.timer
 Dec 10 07:09:27 GW-T480 systemd[1]: Started log_test.timer - Run Log Time Service every minute.
 ```
 
-## Reading Logs
+### Reading Logs
 
 ```bash
 # Check the logs of the service
@@ -88,6 +92,37 @@ journalctl -t log_time_script # The name given to the logger in the script
 Dec 10 07:13:29 GW-T480 log_time_script[38473]: 2024-12-10 07:13:29 - Script executed
 Dec 10 07:14:04 GW-T480 log_time_script[38959]: 2024-12-10 07:14:04 - Script executed
 Dec 10 07:15:00 GW-T480 log_time_script[39600]: 2024-12-10 07:15:00 - Script executed
+```
+
+## User Level Unit Files
+
+Working with user level unit files is a bit different from system level unit files. In particular, the unit files are stored in the user's home directory and rather than using `sudo systemctl` you use `systemctl --user`. Other than that, the process is the same.
+
+The tests here assume a directory structure as follows:
+
+```bash
+${HOME}
+├── .config
+│   └── systemd
+│       └── user
+└── Test
+    └── UnitFileTest
+        └── user_test.sh
+```
+
+## User Unit Files Setup
+
+```bash
+# Copy the files to the correct locations
+mkdir -p ${HOME}/Test/UnitFileTest
+cp ./user_test.sh ${HOME}/Test/UnitFileTest/user_test.sh
+cp ./user_test.service ${HOME}/.config/systemd/user/user_test.service
+cp ./user_test.timer ${HOME}/.config/systemd/user/user_test.timer
+
+# Reload the daemon, enable the timer, and start the timer
+systemctl --user daemon-reload
+systemctl --user enable user_test.timer
+systemctl --user start user_test.timer
 ```
 
 ## Extras

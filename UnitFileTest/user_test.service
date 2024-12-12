@@ -1,0 +1,7 @@
+# Add to $HOME/.config/systemd/user/
+[Unit]
+Description=Testing a user service
+
+[Service]
+Type=oneshot
+ExecStart=%h/Test/UnitFileTest/user_test.sh
